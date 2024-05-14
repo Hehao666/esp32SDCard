@@ -419,7 +419,7 @@ void addFold(){
   String foldname ="";
   foldname+=foldPath+"/";
   foldname+= esp32_server.arg("foldname");
-  SD_MMC.mkdir(foldname);
+  flag=SD_MMC.mkdir(foldname);
   if(flag){
     esp32_server.send(200,"text/html","添加成功");
   } else {
@@ -427,10 +427,16 @@ void addFold(){
   }
 }
 void uploadaddFold(){
+  char flag=0;
   String foldname ="";
   foldname+=foldPath+"/";
   foldname+= esp32_server.arg("foldname");
-  SD_MMC.mkdir(foldname);
+  flag=SD_MMC.mkdir(foldname);
+  if(flag){
+    esp32_server.send(200,"text/html","添加成功");
+  } else {
+    esp32_server.send(300,"text/html","添加失败");
+  }
 }
 void addWifi(){
   if(wifiNum<9)
