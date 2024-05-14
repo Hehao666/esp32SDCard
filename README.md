@@ -11,9 +11,11 @@
 
 # 相关链接：
 
-哔哩哔哩视频：
+哔哩哔哩视频：https://www.bilibili.com/video/BV1Pw4m1X751/?share_source=copy_web&vd_source=56efb7e45102ec59491d4ff5ddfdc196
 
 立创开源广场：https://oshwhub.com/haha233.jpg/backupprojects_haha233-jpg_personal_0_20240427
+
+gitee项目地址（自动同步github）：https://gitee.com/haha233jpg/esp32-sdcard
 
 # 个人博客：
 
