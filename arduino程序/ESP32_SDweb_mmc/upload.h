@@ -1,0 +1,25 @@
+#include "common.h"
+#include <WebServer.h>
+
+void listUploadFile();
+void listAllFileFirst();
+void listAllFile();
+void handleFileUpload();
+void handleFileUploadAll();
+void deleteUploadAllFile();
+void handleFileset();
+void deleteUploadFile();
+void lookthisFile();
+void backRoot();
+void backone();
+void downloadUploadFile();
+void deleteAllButton();
+void addFold();
+void uploadaddFold();
+void renameFile();
+void modify();
+void setversion();
+void quickAllFile();
+void quickfile();
+void addWifi();
+void deduceWifi();
