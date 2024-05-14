@@ -28,6 +28,7 @@ https://hehao666.github.io/
 
 
 2、开机自连WIFI
+
 ![image](开机自连WIFI.png)  
 
 
