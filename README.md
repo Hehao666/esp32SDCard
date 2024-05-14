@@ -9,13 +9,11 @@
 
 ![image](成品外观.jpg)
 
-# 演示视频：
+# 相关链接：
 
-1、  
+哔哩哔哩视频：
 
-
-
-立创开源广场：
+立创开源广场：https://oshwhub.com/haha233.jpg/backupprojects_haha233-jpg_personal_0_20240427
 
 # 个人博客：
 
