@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <title>文件管理</title>
+    <style>
+        .container {
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        #Version {
+            font-weight: bold;
+            /* 加粗文本 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>设置</h2>
+        <p>
+        <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+            <label for="fileUpload">主页头像:</label>
+            <input type="file" name="file1" id="file1" onchange="uploadFile()"><br>
+            <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+                <br><label for="fileUpload">主页壁纸:</label>
+                <input type="file" name="file2" id="file2" onchange="uploadFile()"><br>
+            </form>
+            <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+                <br><label for="fileUpload">二级页面头像:</label>
+                <input type="file" name="file3" id="file3" onchange="uploadFile()"><br>
+            </form>
+            <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+                <br><label for="fileUpload">本地文件总管理页面:</label>
+                <input type="file" name="file4" id="file4" onchange="uploadFile()"><br>
+            </form>
+            <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+                <br><label for="fileUpload">文件快传页面:</label>
+                <input type="file" name="file5" id="file5" onchange="uploadFile()"><br>
+            </form>
+            <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+                <br><label for="fileUpload">网页游戏页面:</label>
+                <input type="file" name="file6" id="file6" onchange="uploadFile()"><br>
+            </form>
+            <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+                <br><label for="fileUpload">在线影院页面:</label>
+                <input type="file" name="file7" id="file7" onchange="uploadFile()"><br>
+            </form>
+            <form action="/upload" id="upload_form" enctype="multipart/form-data" method="post">
+                <br><label for="fileUpload">主页面:</label>
+                <input type="file" name="file8" id="file8" onchange="uploadFile()"><br>
+            </form>
+            <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
+            <h3 id="status"></h3>
+            <p id="loaded_n_total"></p>
+        </form><SMALL>(文件名不能有空格和奇奇怪怪的符号，文件大小最好小于100KB，越小加载越快，一次上传一个)</SMALL>
+        </p>
+        <h2>系统固件更新</h2>
+        <p id="Version">当前版本：</p>
+        <script src='https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js'></script>
+        <form method='POST' action='#' enctype='multipart/form-data' id='OTAupload_form'>
+            <input type='file' name='update'>
+            <input type='submit' value='上传固件'>
+        </form>
+        <div id='prg'>上传进度: 0%</div>
+        <script>
+            $('form').submit(function (e) {
+                e.preventDefault();
+                var form = $('#OTAupload_form')[0];
+                var data = new FormData(form);
+                $.ajax({
+                    url: '/update',
+                    type: 'POST',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    xhr: function () {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                window.location.href = "/index.html";
+                            }
+                        };
+                        xhr.upload.addEventListener('progress', function (evt) {
+                            if (evt.lengthComputable) {
+                                var per = evt.loaded / evt.total;
+                                $('#prg').html('上传进度: ' + Math.round(per * 100) + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    success: function (d, s) {
+                        console.log('成功!')
+                        window.location.href = '/index.html';
+                    },
+                    error: function (a, b, c) {
+                        console.log('失败!')
+                    }
+                });
+            });
+            function changeText(value) {
+                // 获取元素  
+                var p = document.getElementById("Version");
+                // 修改文本内容  
+                p.textContent = "当前版本：" + value;
+            }
+        </script><SMALL>(系统固件上传切记不要关闭电源)</SMALL>
+        <p class="text" id="status"></p>
+        <p class="text" id="detailsheader"></p>
+        <p class="text" id="details"></p>
+        <h2>域名前缀：</h2>
+        <form action="/nameText">
+            <input name="nameText" type="text" id="nameText" value=""><input type="submit" value="保存（重启后生效）" />
+        </form>
+        <script>
+            function nameText() {
+                // 使用fetch API发送GET请求到ESP32服务器  
+                fetch('/get_version')
+                    .then(response => response.json()) // 解析返回的JSON数据  
+                    .then(data => {
+                        // 调用changeText函数并传入版本号  
+                        changeText(data.version);
+                        document.getElementById('nameText').value = data.text;
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+            window.onload = nameText;
+        </script>
+    </div>
+</body>
+
+<script>
+    function _(el) {
+        return document.getElementById(el);
+    }
+    function uploadFile() {
+        var file = _("file1").files[0];
+        var formdata = new FormData();
+        if (file)
+            formdata.append("file1", file, '2.jpg');
+        else {
+            var file = _("file2").files[0];
+            if (file)
+                formdata.append("file2", file, 'intro-bg.jpg');
+            else {
+                var file = _("file3").files[0];
+                if (file)
+                    formdata.append("file3", file, 'logo.jpg');
+                else {
+                    var file = _("file4").files[0];
+                    if (file)
+                        formdata.append("file4", file, 'allFile.html');
+                    else {
+                        var file = _("file5").files[0];
+                        if (file)
+                            formdata.append("file5", file, 'webgame.html');
+                        else {
+                            var file = _("file7").files[0];
+                            if (file)
+                                formdata.append("file7", file, 'video.html');
+                            else {
+                                var file = _("file8").files[0];
+                                formdata.append("file8", file, 'index.html');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        var ajax = new XMLHttpRequest();
+        ajax.upload.addEventListener("progress", progressHandler, false);
+        ajax.addEventListener("load", completeHandler, false);
+        ajax.addEventListener("error", errorHandler, false);
+        ajax.addEventListener("abort", abortHandler, false);
+        ajax.open("POST", "/set");
+        ajax.send(formdata);
+    }
+    function progressHandler(event) {
+        _("loaded_n_total").innerHTML = "已上传 " + event.loaded + " bytes";
+        var percent = (event.loaded / event.total) * 100;
+        _("progressBar").value = Math.round(percent);
+        _("status").innerHTML = Math.round(percent) + "% 上传中... 请稍等";
+        if (percent >= 100) {
+            _("status").innerHTML = "请等待, 正在写入文件";
+        }
+    }
+    function completeHandler(event) {
+        _("status").innerHTML = "上传完成";
+        _("progressBar").value = 0;
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.send();
+        document.getElementById("status").innerHTML = "上传成功";
+        document.getElementById("detailsheader").innerHTML = "<h3>文件列表<h3>";
+        document.getElementById("details").innerHTML = xmlhttp.responseText;
+    }
+    function errorHandler(event) {
+        _("status").innerHTML = "上传失败";
+    }
+    function abortHandler(event) {
+        _("status").innerHTML = "上传中断";
+    }
+</script>
+
+</html>
