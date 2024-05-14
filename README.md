@@ -26,8 +26,10 @@ https://hehao666.github.io/
 1、文件批量上传、下载、重命名、删除、在线修改.html和.txt文件
 ![image](文件总管理.png)
 
+
 2、开机自连WIFI
-![image](开机自连WIFI.png)
+![image](开机自连WIFI.png)  
+
 
 3、设置（含OTA,域名前缀修改）
 ![image](设置.png)
