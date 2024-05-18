@@ -388,8 +388,6 @@ void server_wifista(){
       delay(1000);  
     }  
   }
-  MDNS.addService("http", "tcp", 80);  
-  Serial.println("mDNS responder started");  
 
   Serial.println(WiFi.localIP());
   esp32_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
@@ -476,6 +474,8 @@ void server_wifista(){
     });
 
   esp32_server.begin();                           // 启动网站服务
+  MDNS.addService("http", "tcp", 80);  
+  Serial.println("mDNS responder started");
   Serial.println("HTTP server started");
   while(mode_switch)    //监听用户请求，直到模式转换
   {
@@ -511,8 +511,6 @@ void server_ap(){
       delay(1000);  
     }  
   }
-  MDNS.addService("http", "tcp", 80);  
-  Serial.println("mDNS responder started");
 
   //IPAD = WiFi.softAPIP().toString();  //将当前IP地址存储起来
   //IPAD="esp32.local";
@@ -559,8 +557,50 @@ void server_ap(){
   esp32_server.on("/deduceWifi",HTTP_GET, deduceWifi); //减少自连wifi
   esp32_server.on("/deleteAllButton",HTTP_GET, deleteAllButton); //删除所有文件
   esp32_server.on("/backone",HTTP_GET, backone); //上一级
+  
+//OTA
+  esp32_server.on(
+    "/update", HTTP_POST, []()
+    {
+    esp32_server.sendHeader("Connection", "close");
+    esp32_server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+    ESP.restart(); },
+    []()
+    {
+      HTTPUpload &upload = esp32_server.upload();
+      if (upload.status == UPLOAD_FILE_START)
+      {
+        Serial.printf("Update: %s\n", upload.filename.c_str());
+        if (!Update.begin(UPDATE_SIZE_UNKNOWN))
+        { // start with max available size
+          Update.printError(Serial);
+        }
+      }
+      else if (upload.status == UPLOAD_FILE_WRITE)
+      {
+        /* flashing firmware to ESP*/
+        if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
+        {
+          Update.printError(Serial);
+        }
+      }
+      else if (upload.status == UPLOAD_FILE_END)
+      {
+        if (Update.end(true))
+        { // true to set the size to the current progress
+          esp32_server.send(200,"text/html","");
+          Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
+        }
+        else
+        {
+          Update.printError(Serial);
+        }
+      }
+    });
 
   esp32_server.begin();                           // 启动网站服务
+  MDNS.addService("http", "tcp", 80);  
+  Serial.println("mDNS responder started");
   Serial.println("HTTP server started");
 
   while(mode_switch)    //监听用户请求，直到模式转换
@@ -615,8 +655,6 @@ void server_sta(){
       delay(1000);  
     }  
   }
-  MDNS.addService("http", "tcp", 80);  
-  Serial.println("mDNS responder started");
 
   esp32_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
   esp32_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
@@ -703,6 +741,8 @@ void server_sta(){
     });
 
   esp32_server.begin();                           // 启动网站服务
+  MDNS.addService("http", "tcp", 80);  
+  Serial.println("mDNS responder started");
   Serial.println("HTTP server started");
 
   while(mode_switch)    //监听用户请求，直到模式转换
