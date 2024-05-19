@@ -3,4 +3,4 @@ wifiConnectTime=500
 CPUFfrequency=80
 gameWidth=1120
 gameHeight=840
-hostName=haha
+hostName=esp32
