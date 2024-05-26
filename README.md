@@ -7,7 +7,9 @@
 
 成品尺寸:4\*3(3.1)\*1.18cm。
 
-![image](成品外观.jpg)
+<div align='center'>
+<img src="成品外观.jpg" width="400">
+</div>
 
 # 相关链接：
 
