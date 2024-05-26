@@ -5,48 +5,529 @@
   <meta charset="UTF-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
-  <title>文件管理</title>
+  <link rel="stylesheet" href="./CSS/fontawesome-free-6.5.2-web/css/all.min.css">
+  <link rel="stylesheet" href="./CSS/css.css" />
+  <title>文件快传</title>
   <style>
     .container {
       width: 800px;
-      margin: 0 auto;
+      margin: 10px auto 0 350px;
+    }
+
+    .containerlist {
+      width: calc(97% - 350px);
+      margin: 10px auto 0 350px;
+      height: 88vh;
+      box-sizing: border-box;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(0, 123, 255, 0.5);
+      outline: none;
+      resize: none;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      color: #000;
+      transition: all 0.3s ease;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      border-radius: 10px;
+    }
+
+    .containerlist::-webkit-scrollbar {
+      display: none;
+    }
+
+    .containerlist ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    .containerlist span {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .containerlist li {
+      display: flex;
+      margin-right: 20px;
+    }
+
+    .icon {
+      font-size: 100px;
+      list-style: none;
+    }
+
+    .icon>i {
+      color: #419ec5;
+    }
+
+    .filename {
+      display: inline-block;
+      margin-bottom: 4px;
+      white-space: normal;
+      max-width: 90px;
+      text-align: center;
+      word-break: break-all;
+    }
+
+    .file-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      width: fit-content;
+      margin-bottom: 10px;
+    }
+
+    .icon-container {
+      width: 120px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    .icon-container:hover {
+      background-color: rgba(0, 128, 255, 0.4);
+    }
+
+    .icon-container.selected {
+      background-color: rgba(0, 128, 255, 0.7);
+    }
+
+    .custom-context-menu {
+      position: absolute;
+      background-color: #ff9acd;
+      border: 2px solid #87CEFA;
+      list-style-type: none;
+      padding: 0;
+      z-index: 999;
+      border-radius: 10px;
+    }
+
+    .custom-context-menu ul li {
+      list-style: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .custom-context-menu ul li:hover {
+      background-color: #eee;
+      border-radius: 10px;
+    }
+
+    button {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      border: 1px solid #888;
+      width: 18%;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .notification.modal {
+      display: none;
+    }
+
+    .notification .modal-content {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .notification-message {
+      margin-bottom: 10px;
+    }
+
+    .input-column {
+      padding: 20px;
+      text-align: right;
+    }
+
+    #foldNameInput {
+      border: 2px solid #419ec5;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    #uploadModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      overflow-y: auto;
+    }
+
+    /*文本修改*/
+    .modalmodi {
+      position: fixed;
+      /* 使模态框固定在屏幕位置 */
+      z-index: 1;
+      /* 确保在最上层 */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* 宽度全屏 */
+      height: 100%;
+      overflow: auto;
+      /* 启用滚动条 */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* 半透明背景 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* 居中模态内容 */
+    }
+
+    .modalmodi-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      /* 模态框内容宽度 */
+      text-align: left;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    textarea {
+      width: 100%;
+      /* 或者具体宽度，例如：300px */
+      height: 600px;
+      /* 或者具体高度，例如：200px */
+      overflow-y: scroll;
+      /* 允许垂直滚动 */
+      scrollbar-width: none;
+      /* 隐藏滚动条对于Firefox */
+      -ms-overflow-style: none;
+      font-size: 20;
+    }
+
+    textarea::-webkit-scrollbar {
+      display: none;
+      /* 隐藏滚动条对于Webkit浏览器，如Chrome和Safari */
+    }
+
+    #textareaContainer {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      max-width: 100%;
+      /* 可根据需要调整 */
+    }
+
+    #textareaContent {
+      width: 100%;
+      /* 减去行数列的宽度 */
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    .modalPicture {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modalPicture-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      max-width: 70%;
+      max-height: 70%;
+      display: flex;
+      /* 将容器设为Flex布局 */
+      justify-content: center;
+      /* 水平居中 */
+      align-items: center;
+      /* 垂直居中 */
+    }
+
+    input[type="file"] {
+      opacity: 0;
+      /* 让输入框透明 */
+      position: absolute;
+      /* 使用绝对定位 */
+      width: o;
+      /* 设置宽度与触发按钮相同，确保可点击区域 */
+      height: 0;
+      /* 设置高度与触发按钮相同 */
+      top: 0;
+      /* 与按钮顶部对齐 */
+      left: 0;
+      /* 与按钮左侧对齐 */
+      cursor: pointer;
+      /* 改变鼠标指针为手型，提升用户体验 */
     }
   </style>
 </head>
 
 <body>
+  <nav>
+    <ul>
+      <li>
+        <a class="logo">
+          <img src="./logo.jpg" alt="" />
+          <span class="nav-item">哈哈233的网盘</span>
+        </a>
+      </li>
+      <li>
+        <a href="/wifi.html">
+          <i class="fa-sharp fa-solid fa-wifi"></i>
+          <span class="nav-item">网络配置</span>
+        </a>
+      </li>
+      <li class="current-page">
+        <a href="/upload.html">
+          <i class="fa-sharp fa-solid fa-circle-up"></i>
+          <span class="nav-item">文件快传</span>
+        </a>
+      </li>
+      <li>
+        <a href="/audio.html">
+          <i class="fa-sharp fa-solid fa-headphones"></i>
+          <span class="nav-item">音乐播放</span>
+        </a>
+      </li>
+      <li>
+        <a href="/webgame.html">
+          <i class="fa-sharp fa-solid fa-gamepad"></i>
+          <span class="nav-item">网页游戏</span>
+        </a>
+      </li>
+      <li>
+        <a href="video.html">
+          <i class="fa-sharp fa-solid fa-film"></i>
+          <span class="nav-item">私人影院</span>
+        </a>
+      </li>
+      <li>
+        <a href="/clipboard.html">
+          <i class="fa-sharp fa-solid fa-clipboard"></i>
+          <span class="nav-item">剪切板</span>
+        </a>
+      </li>
+      <li>
+        <a href="/allFile.html">
+          <i class="fa-sharp fa-solid fa-folder"></i>
+          <span class="nav-item">文件总管理</span>
+        </a>
+      </li>
+      <li>
+        <a href="/wificonnect">
+          <i class="fa-sharp fa-solid fa-gears"></i>
+          <span class="nav-item">模式转换</span>
+        </a>
+      </li>
+      <li>
+        <a href="/set.html">
+          <i class="fa-sharp fa-solid fa-gear"></i>
+          <span class="nav-item">设置</span>
+        </a>
+      </li>
+      <li>
+        <a href="">
+          <i class="fa-sharp fa-solid fa-database"></i>
+          <span class="nav-item" id="currentMemory"></span>
+          <span class="nav-item" id="totalMemory"></span>
+        </a>
+        <div class="progress-bar" id="memory-progress">
+        </div>
+      </li>
+    </ul>
+  </nav>
   <div class="container">
-    <h2>文件管理</h2>
+    <span class="text" id="filenum"></span>
+    <span class="text" id="path"></span>
     <p>
+      <button onclick="backone()">上一级</button>
       <button onclick="backRoot()">根目录</button>
-      <button onclick="showUploadButtonFancy()">文件上传</button>
-      <button onclick="creatfold()">创建文件夹</button>
-      <input type="text" name="foldname" value="" id='inputValue' placeholder="请输入要创建的文件夹名称">
+      <button id="selectFilesAndUploadButton">选择文件并上传</button>
+      <button onclick="" id="creatfold">创建文件夹</button>
+    <div id="uploadModal" style="display:none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>文件上传中...</h2>
+        <progress id="modalProgressBar" value="0" max="100" style="width:100%;"></progress>
+        <p id="modalStatus"></p>
+        <p id="modalLoaded_n_total"></p>
+      </div>
+    </div>
+    <div id="foldModal" class="modal">
+      <div class="modal-content">
+        <div class="input-column">
+          <label for="foldNameInput"></label>
+          <input type="text" id="foldNameInput" required>
+          <button id="confirmCreate" class="right-aligned">确认创建</button>
+        </div>
+      </div>
+    </div>
+    <div id="notificationModal" class="modal notification">
+      <div class="modal-content">
+        <span class="notification-message"></span>
+        <button id="closeNotification">关闭</button>
+      </div>
+    </div>
+    <div id="renameModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <input type="text" id="renameInput" placeholder="请输入新文件名">
+        <input type="hidden" id="hiddenFilePath">
+        <button onclick="applyRename()">确定</button>
+      </div>
+    </div>
     </p>
-    <p class="text" id="status"></p>
-    <p class="text" id="detailsheader"></p>
-    <p class="text" id="details"></p>
+  </div>
+  <div id="modifyModal" class="modalmodi" style="display:none">
+    <div class="modalmodi-content">
+      <span id="modalClose" class="close">&times;</span> <!-- 关闭按钮 -->
+      <h3 id="modalFilename"></h3> <!-- 文件名将显示在这里 -->
+      <div class="button-section">
+        <button id="saveButton">保存</button>
+      </div>
+      <div id="textareaContainer">
+        <textarea id="textareaContent" placeholder="加载中..."></textarea>
+      </div>
+    </div>
+  </div>
+  <div class=" containerlist">
+    <ul id="fileList">
+  </div>
+  <div id="myModal" class="modalPicture" onclick="checkClick(event)">
+    <img class="modalPicture-content" id="displayedImage" src="">
+    <div id="caption"></div>
   </div>
 </body>
 
 <script>
-  function deleteButton(filepath) {
-    var urltocall = "/deleteUploadFile?deletePath=" + filepath;
-    if (confirm("确认删除")) {
-      xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", urltocall, false);
-      xmlhttp.send();
-      document.getElementById("status").innerHTML = xmlhttp.responseText;
-      document.getElementById("details").innerHTML = xmlhttp.responseText;
+  let totalFilesCount = 0;
+  let selectedFilesForDownload = [];
+  // 定义允许的文件扩展名数组
+  const allowedExtensionsForModify = ['txt', 'html', 'css', 'js', 'json', 'yml', 'scss'];
+  const allowedExtensionsForModifyPicture = ['jpg', 'jpeg', 'png'];
+
+  function storage() {
+    fetch('/get_quickFile')
+      .then(response => response.json())
+      .then(data => {
+        calStorage(data);
+        displayFileList(data.files);
+      })
+      .catch(error => console.error('Error:', error));
+  }
+  function getFiles() {
+    fetch('/get_File')
+      .then(response => response.json())
+      .then(data => {
+        calStorage(data);
+        displayFileList(data.files);
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function confirmDeleteMultipleFiles() {
+    if (confirm("确认删除选定的所有文件？")) {
+      deleteSelectedFiles();
     }
-    window.location.reload();
+  }
+
+  function deleteSelectedFiles() {
+    selectedFilesForDownload.forEach((filePath, index) => {
+      deleteSingleFile(filePath, index, selectedFilesForDownload.length);
+    });
+    showAlert('已执行', true);
+  }
+
+  function deleteSingleFile(filePath, currentIndex, totalFiles) {
+    const urltocall = "/deleteUploadFile?deletePath=" + encodeURIComponent(filePath);
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        if (currentIndex === totalFiles - 1) {
+          getFiles();
+        }
+      }
+    };
+    xmlhttp.open("GET", urltocall, true);
+    xmlhttp.send();
   }
   function lookthis(filepath) {
     var urltocall = "/lookthis?lookthisPath=" + filepath;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        window.location.href = "/white.html";
+        getFiles();
       }
     };
     xmlhttp.open("GET", urltocall, false);
@@ -56,51 +537,79 @@
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        window.location.href = "/white.html";
+        getFiles();
       }
     };
     xmlhttp.open("GET", "/backRoot", false);
     xmlhttp.send();
   }
-  function creatfold() {
-    var textboxValue = document.getElementById("inputValue").value;
-    var urltocall = "/uploadaddFold?foldname=" + textboxValue;
+  function backone() {
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        window.location.href = "/white.html";
-        document.getElementById("details").innerHTML = this.responseText;
-      } else if (this.status != 200) {
-        // 处理服务器错误或其他网络错误  
-        document.getElementById("details").innerHTML = this.responseText;
+        getFiles();
       }
     };
-    xmlhttp.open("GET", urltocall, false);
+    xmlhttp.open("GET", "/backone", true);
     xmlhttp.send();
   }
-  function downloadButton(filepath, filename) {
-    var urltocall = "/downloadUploadFile?attname=" + filename + "&downloadPath=" + filepath;
-    document.getElementById("status").innerHTML = "";
-    window.open(urltocall, '_blank');
+  function creatfold(folderName) {
+    var urltocall = "/uploadaddFold?foldname=" + folderName;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          getFiles();
+          showAlert("文件夹 '" + folderName + "' 创建成功", true);
+        } else {
+          showAlert("创建文件夹失败: " + this.responseText, false);
+        }
+      }
+    };
+    xmlhttp.open("GET", urltocall, true);
+    xmlhttp.send();
   }
-  function showUploadButtonFancy() {
-    document.getElementById("detailsheader").innerHTML = "<h3>文件上传<h3>"
-    document.getElementById("status").innerHTML = "";
-    var uploadform =
-      "<form action = \"/upload\" id=\"upload_form\" enctype=\"multipart/form-data\" method=\"post\">" +
-      "<input type=\"file\" name=\"file1\" id=\"file1\" multiple onchange=\"uploadFile()\"><br>" +
-      "<progress id=\"progressBar\" value=\"0\" max=\"100\" style=\"width:300px;\"></progress>" +
-      "<h3 id=\"status\"></h3>" +
-      "<p id=\"loaded_n_total\"></p>" +
-      "</form><SMALL>(文件名不能有空格和奇奇怪怪的符号)</SMALL>";
-    document.getElementById("details").innerHTML = uploadform;
+
+  document.getElementById("selectFilesAndUploadButton").addEventListener("click", function () {
+    var uploadForm = document.createElement('input');
+    uploadForm.type = 'file';
+    uploadForm.name = 'file1';
+    uploadForm.id = 'file1';
+    uploadForm.multiple = true;
+    uploadForm.onchange = function () {
+      if (this.files.length > 0) {
+        showModal();
+        startUpload(this.files);
+      }
+    };
+
+    document.body.appendChild(uploadForm);
+    uploadForm.click();
+  });
+
+  function showModal() {
+    document.getElementById('uploadModal').style.display = 'block';
   }
-  function _(el) {
-    return document.getElementById(el);
+
+  function closeModal() {
+    document.getElementById('uploadModal').style.display = 'none';
+    //selectedFilesForDownload = [];
   }
-  function uploadFile() {
-    var input = document.getElementById('file1');
-    var files = input.files;
+  function completeHandler(event) {
+    closeModal();
+    getFiles();
+  }
+  function progressHandler(event, index) {
+    var percent = (event.loaded / event.total) * 100;
+    document.getElementById("modalProgressBar").value = Math.round(percent);
+    document.getElementById("modalStatus").innerHTML = Math.round(percent) + "% 上传中... 请稍等";
+    if (percent >= 100) {
+      document.getElementById("modalStatus").innerHTML = "请等待, 正在写入文件";
+    }
+
+  }
+
+  function startUpload(files) {
     for (let i = 0; i < files.length; i++) {
       var file = files[i];
       var formData = new FormData();
@@ -110,8 +619,9 @@
       ajax.upload.addEventListener("progress", function (event) {
         progressHandler(event, i + 1);
       }, false);
-      if (i == files.length - 1)
+      if (i === files.length - 1) {
         ajax.addEventListener("load", completeHandler, false);
+      }
       ajax.addEventListener("error", errorHandler, false);
       ajax.addEventListener("abort", abortHandler, false);
       ajax.open('POST', '/upload', true);
@@ -126,32 +636,382 @@
 
       ajax.send(formData);
     }
+    showAlert('传输完毕', true);
   }
-  function progressHandler(event, index) {
-    _("loaded_n_total").innerHTML = index + "/" + document.getElementById('file1').files.length + "已上传 " + event.loaded + " bytes";
-    var percent = (event.loaded / event.total) * 100;
-    _("progressBar").value = Math.round(percent);
-    _("status").innerHTML = Math.round(percent) + "% 上传中... 请稍等";
-    if (percent >= 100) {
-      _("status").innerHTML = "请等待, 正在写入文件";
+
+  function errorHandler(event) {
+    console.error('文件上传时发生错误');
+    closeModal();
+  }
+
+  function abortHandler(event) {
+    console.log('文件上传已取消');
+    closeModal();
+  }
+
+  function calStorage(data) {
+    const currentMemoryStr = bytesToSize(data.totalstorage);
+    const totalMemoryStr = bytesToSize(data.totalstorage - data.storage);
+
+    document.getElementById('currentMemory').innerText = totalMemoryStr;
+    document.getElementById('totalMemory').innerText = " / " + currentMemoryStr;
+
+    let percentageUsed = (data.storage / data.totalstorage) * 100;
+    percentageUsed = Math.min(percentageUsed, 100);
+    const progressBar = document.getElementById('memory-progress');
+    progressBar.style.background = `linear-gradient(to right, #007bff 0%, #f3f3 ${percentageUsed}%)`;
+  }
+  function bytesToSize(bytes) {
+    var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    if (bytes == 0) return '0 B';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    var size = bytes / Math.pow(1024, i);
+    if (sizes[i] !== 'B') {
+      size = size.toFixed(2);
+    }
+    return size + ' ' + sizes[i];
+  }
+  function displayFileList(files) {
+    totalFilesCount = files.length;
+
+    let directoryUpdated = false;
+    if (totalFilesCount > 0 && !directoryUpdated) {
+      let currentFilePath = files[0].filepath;
+      currentFolderPath = currentFilePath.split('/').slice(0, -1).join('/');
+      if (currentFolderPath === '') {
+        currentFolderPath = '/';
+      }
+      document.getElementById('path').textContent = `当前目录：${currentFolderPath}`;
+      directoryUpdated = true;
+    }
+
+    const fileListElement = document.getElementById('fileList');
+    fileListElement.innerHTML = '';
+
+    files.forEach(item => {
+      const listItem = document.createElement('li');
+      listItem.className = 'file-item';
+
+      const iconContainer = document.createElement('div');
+      iconContainer.className = 'icon-container';
+      iconContainer.setAttribute('data-filepath', item.filepath);
+
+      iconContainer.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        showCustomContextMenu(e.clientX, e.clientY, this.getAttribute('data-filepath')); // 显示自定义菜单
+      });
+
+      iconContainer.addEventListener('dblclick', function (e) {
+        e.preventDefault();
+        lookthis(this.getAttribute('data-filepath'));
+      });
+
+      let longPressTimer;
+      iconContainer.addEventListener('touchstart', function (e) {
+        longPressTimer = setTimeout(function () {
+          e.preventDefault();
+          showCustomContextMenu(e.touches[0].clientX, e.touches[0].clientY, this.getAttribute('data-filepath'));
+        }, 500)
+      });
+
+      iconContainer.addEventListener('touchend', function () {
+        clearTimeout(longPressTimer);
+      });
+
+      const iconSpan = document.createElement('span');
+      iconSpan.classList.add('icon');
+      const filenameSpan = document.createElement('span');
+      filenameSpan.className = 'filename';
+      const fileSizeSpan = document.createElement('span');
+
+      const filename = item.filepath.split('/').pop();
+      filenameSpan.textContent = filename;
+
+      if (item.filesize === "0") {
+        iconSpan.innerHTML = '<i class="fas fa-folder"></i>';
+      } else {
+        iconSpan.innerHTML = '<i class="fas fa-file"></i>';
+        fileSizeSpan.textContent = bytesToSize(parseInt(item.filesize), true);
+      }
+
+      iconContainer.appendChild(iconSpan);
+      iconContainer.appendChild(filenameSpan);
+
+      if (item.filesize !== "0") {
+        iconContainer.appendChild(fileSizeSpan);
+      }
+
+      iconContainer.addEventListener('click', handleItemClick);
+
+      listItem.appendChild(iconContainer);
+      fileListElement.appendChild(listItem);
+    });
+    updateFileCountsDisplay();
+  }
+
+  function handleItemClick(event) {
+    const filePath = event.currentTarget.getAttribute('data-filepath');
+
+    if (event.currentTarget.classList.contains('selected')) {
+      const index = selectedFilesForDownload.indexOf(filePath);
+      if (index > -1) {
+        selectedFilesForDownload.splice(index, 1);
+      }
+    } else {
+      selectedFilesForDownload.push(filePath);
+    }
+    event.currentTarget.classList.toggle('selected');
+    updateFileCountsDisplay();
+  }
+  function clearClickedOutside(event) {
+    if (!event.target.closest('.icon-container')) {
+      selectedFilesForDownload = [];
+      updateFileCountsDisplay();
+      document.querySelectorAll('.icon-container.selected').forEach(element => {
+        element.classList.remove('selected');
+      });
     }
   }
-  function completeHandler(event) {
-    window.location.href = "/white.html";
-    _("status").innerHTML = "上传完成";
-    _("progressBar").value = 0;
+  document.addEventListener('DOMContentLoaded', function () {
+    const fileItems = document.querySelectorAll('.icon-container');
+    fileItems.forEach(item => {
+      item.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        showCustomContextMenu(e.clientX, e.clientY, this.getAttribute('data-filepath')); // 显示自定义菜单
+      });
+    });
+  });
+
+  function showCustomContextMenu(x, y, filePath) {
+    const clickedItem = event.target.closest('.icon-container');
+    const isFolder = clickedItem.querySelector('.fa-folder');
+    const fileName = filePath.split('/').pop();
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+    const menu = document.createElement('div');
+    menu.classList.add('custom-context-menu');
+    // 判断是否在允许的文件类型中
+    const isAllowedFileForModify = allowedExtensionsForModify.includes(fileExtension);
+    let modifyOption = '';
+    if (selectedFilesForDownload.length === 1 && isAllowedFileForModify) {
+      modifyOption = `<li onclick="modify('${filePath}')">查看</li>`;
+    }
+    const isAllowedFileForModifyPicture = allowedExtensionsForModifyPicture.includes(fileExtension);
+    let modifyOptionPicturn = '';
+    if (selectedFilesForDownload.length === 1 && isAllowedFileForModifyPicture) {
+      modifyOptionPicturn = `<li onclick="lookPic('${filePath}')">查看</li>`;
+    }
+    menu.innerHTML = `
+    <ul>
+      ${selectedFilesForDownload.length == 1 && isFolder ? `<li onclick="lookthis('${filePath}')">打开</li>` : ''}
+      ${modifyOption}
+      ${modifyOptionPicturn}
+      ${selectedFilesForDownload.length >= 1 && !isFolder ? `<li onclick="downloadSelectedFilesSequentially()">下载</li>` : ''}
+      ${selectedFilesForDownload.length == 1 ? `<li onclick="showRenameModal('${filePath}')">重命名</li>` : ''}
+      ${selectedFilesForDownload.length >= 1 ? `<li onclick="confirmDeleteMultipleFiles()">删除</li>` : ''}
+    </ul>
+  `;
+    menu.style.left = `${x}px`;
+    menu.style.top = `${y}px`;
+    document.body.appendChild(menu);
+
+    document.addEventListener('click', hideContextMenu);
+    function hideContextMenu() {
+      document.body.removeChild(menu);
+      document.removeEventListener('click', hideContextMenu);
+    }
+  }
+  window.onload = function () {
+    storage();
+    document.body.addEventListener('click', clearClickedOutside);
+  };
+  function downloadSelectedFilesSequentially() {
+    if (selectedFilesForDownload.length === 0) return;
+
+    let currentFileIndex = 0;
+    const downloadNextFile = () => {
+      if (currentFileIndex >= selectedFilesForDownload.length) {
+        selectedFilesForDownload = [];
+        selectedFilesCount = 0;
+        return;
+      }
+
+      const filePath = selectedFilesForDownload[currentFileIndex++];
+      const link = document.createElement('a');
+      link.href = filePath;
+      link.style.display = 'none';
+      link.download = filePath.split('/').pop();
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(downloadNextFile, 500);
+    };
+
+    downloadNextFile();
+  }
+  function updateFileCountsDisplay() {
+    document.getElementById('filenum').innerText = "文件：" + `${selectedFilesForDownload.length} / ${totalFilesCount}`;
+  }
+  document.getElementById('creatfold').addEventListener('click', function () {
+    document.getElementById('foldModal').style.display = 'block';
+  });
+
+  document.getElementById('confirmCreate').addEventListener('click', function () {
+    var foldName = document.getElementById('foldNameInput').value;
+    if (foldName.trim() === '') {
+      alert('文件夹名称不能为空！');
+      return;
+    }
+
+    creatfold(foldName);
+
+    document.getElementById('foldModal').style.display = 'none';
+  });
+
+  window.addEventListener('click', function (event) {
+    if (event.target == document.getElementById('foldModal')) {
+      document.getElementById('foldModal').style.display = 'none';
+    }
+  });
+  function showAlert(message, isSuccess) {
+    var notificationModal = document.getElementById('notificationModal');
+    var notificationMessage = document.querySelector('.notification-message');
+    notificationMessage.textContent = message;
+    notificationMessage.style.color = isSuccess ? 'green' : 'red';
+    notificationModal.style.display = 'block';
+
+    document.getElementById('closeNotification').addEventListener('click', function () {
+      notificationModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+      if (event.target == notificationModal) {
+        notificationModal.style.display = 'none';
+      }
+    });
+  }
+
+  function renameFile(oldFilePath, newName) {
+    var urltocall = "/renameFile?foldname=" + oldFilePath + "&newfoldname=" + newName;
     xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        // 成功后的处理，例如刷新文件列表或提示信息
+        showAlert('文件重命名成功', true);
+        getFiles();
+        // 可能需要重新加载文件列表或更新UI
+      } else {
+        showAlert('文件重命名失败，请稍后再试', false);
+      }
+    };
+    xmlhttp.open("GET", urltocall, true);
     xmlhttp.send();
-    document.getElementById("status").innerHTML = "上传成功";
-    document.getElementById("detailsheader").innerHTML = "<h3>文件列表<h3>";
-    document.getElementById("details").innerHTML = xmlhttp.responseText;
   }
-  function errorHandler(event) {
-    _("status").innerHTML = "上传失败";
+  function showRenameModal(fullFilePath) {
+    // 分离出文件名
+    const fileName = fullFilePath.split('/').pop();
+    // 预填当前文件名到输入框
+    document.getElementById('renameInput').value = fileName;
+    // 保存不含文件名的原始路径
+    document.getElementById('hiddenFilePath').value = fileName;
+    document.getElementById('renameModal').style.display = 'block';
   }
-  function abortHandler(event) {
-    _("status").innerHTML = "上传中断";
+
+  function hideModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
   }
+
+  function applyRename() {
+    const newName = document.getElementById('renameInput').value.trim();
+    const oldName = document.getElementById('hiddenFilePath').value; // 假设placeholder中是原始文件名
+    if (newName) {
+      // 直接传递旧文件名（不含路径）和新文件名到renameFile函数
+      renameFile(oldName, newName);
+      hideModal('renameModal'); // 关闭模态框
+    } else {
+      alert('文件名不能为空！');
+    }
+  }
+  var saveHandler = function (filename) {
+    return function () {
+      // 在这里处理保存逻辑，比如发送文本内容到服务器
+      var content = document.getElementById('textareaContent').value;
+      saveModifiedContent(filename, content);
+    };
+  };
+  function modify(filename) {
+    var urltocall = "/modify?filename=" + filename;
+    // 设置文件名
+    document.getElementById('modalFilename').innerText = filename; // 假设modalFilename是显示文件名的元素ID
+
+    // 清空并准备文本区域以供编辑（如果之前有内容）
+    document.getElementById('textareaContent').value = ''; // 假设textareaContent是文本区域的元素ID
+
+    // 弹出模态窗口
+    document.getElementById('modifyModal').style.display = 'block'; // 假设modifyModal是模态窗口的ID
+
+    var boundSaveHandler = saveHandler(filename);
+    document.getElementById('saveButton').addEventListener('click', boundSaveHandler);
+
+    document.getElementById('modalClose').addEventListener('click', function () {
+      // 确保移除监听器时使用与添加时相同的引用
+      document.getElementById('saveButton').removeEventListener('click', boundSaveHandler);
+      closeModalEdit('modifyModal');
+    });
+    // 发起请求获取文件内容
+    fetch(urltocall)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('网络错误或文件不存在');
+        }
+        return response.text(); // 现在期待是文本内容
+      })
+      .then(textContent => {
+        // 直接将文本内容显示在textarea
+        document.getElementById('textareaContent').value = textContent;
+      })
+      .catch(error => {
+        alert("查看文件时出错: " + error.message);
+      });
+  }
+
+  // 保存修改后的内容到服务器的函数
+  function saveModifiedContent(filename, content) {
+    var encodedContent = encodeURIComponent(content);
+    var urltocall = "/edittxt?txtpath=" + filename + "&con=" + encodedContent;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        alert("成功修改");
+      }
+    };
+    xmlhttp.open("GET", urltocall, false);
+    xmlhttp.send();
+
+    // 实现您的保存逻辑，比如发送到服务器
+    hideModal('modifyModal'); // 保存后关闭模态框
+  }
+  function closeModalEdit(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+    selectedFilesForDownload = [];
+  }
+  function lookPic(path) {
+    var imgElement = document.getElementById('displayedImage');
+    var captionText = document.getElementById("caption");
+    imgElement.src = path;
+    captionText.innerHTML = ''; // 清空图片描述，默认可以为空或者根据需要设置
+    var modal = document.getElementById("myModal");
+    modal.style.display = "block"; // 显示弹窗
+  }
+  function checkClick(event) {
+    var modal = document.getElementById("myModal");
+    var img = document.getElementById("modalImage");
+    if (event.target === modal && event.target !== img) {
+      modal.style.display = "none";
+    }
+  }
+
 </script>
 
 </html>
