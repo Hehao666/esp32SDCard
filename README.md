@@ -15,6 +15,8 @@
 
 哔哩哔哩视频（进阶介绍）：https://www.bilibili.com/video/BV1Aw4m1X7CM/?share_source=copy_web&vd_source=56efb7e45102ec59491d4ff5ddfdc196
 
+哔哩哔哩视频（1.3.0版本）：https://www.bilibili.com/video/BV1Vi421S7QR/?share_source=copy_web&vd_source=56efb7e45102ec59491d4ff5ddfdc196
+
 立创开源广场：https://oshwhub.com/haha233.jpg/backupprojects_haha233-jpg_personal_0_20240427
 
 gitee项目地址（自动同步github）：https://gitee.com/haha233jpg/esp32-sdcard
@@ -25,34 +27,50 @@ https://hehao666.github.io/
 
 # 功能
 
-1、文件批量上传、下载、重命名、删除、在线修改.html和.txt文件
-![image](文件总管理.png)
+1、文件总管理
+<div align='center'>
+<img src="文件总管理.png" width="400">
+</div>
 
 
-2、开机自连WIFI
+2、文件快传
 
-![image](开机自连WIFI.png)  
+<div align='center'>
+<img src="文件快传.png" width="400">
+</div>
+
+3、网络配置
+
+<div align='center'>
+<img src="网络配置.png" width="400">
+</div>
 
 
-3、设置（含OTA,域名前缀修改）
-![image](设置.png)
+4、设置
+<div align='center'>
+<img src="设置.png" width="400">
+</div>
 
-4、网页视频
+5、私人影院
 
-浏览器播放内存卡m3u8视频
+<div align='center'>
+<img src="私人影院.png" width="400">
+</div>
 
-5、剪切板
+6、剪切板
 
-文本中转，快捷共享
+<div align='center'>
+<img src="剪切板.png" width="400">
+</div>
 
-6、网页flash游戏和html游戏
+7、网页游戏
 
-浏览器在线游玩网页flash游戏和html游戏
+<div align='center'>
+<img src="网页游戏.png" width="400">
+</div>
 
-7、WiFi配网（模式转换）
+8、音乐播放
 
-开机进入STA模式，第一次点击切换为AP模式，AP模式下点击进入网页配网页面（AP+STA模式），该页面可以修改AP模式热点的名称、密码。
-
-# 注意
-
-NFC是淘宝购买的小米碰碰贴215，直径25mm，换成其他尺寸较大的可能放不下，需要粘到外壳表面，目前是内置在外壳下面，表面是送的贴纸。
+<div align='center'>
+<img src="音乐播放.png" width="400">
+</div>
