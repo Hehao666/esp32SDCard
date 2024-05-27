@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('../config/background.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+nav {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    background: #fff;
+    width: 280px;
+    overflow: hidden;
+    transition: width 0.3s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    /* 允许内容超出时自动出现滚动条 */
+    -ms-overflow-style: none;
+    /* IE 和 Edge */
+    scrollbar-width: none;
+}
+
+nav::-webkit-scrollbar {
+    display: none;
+}
+
+.logo {
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    margin: 10px 0 0 12px;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.logo span {
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 18px;
+}
+
+a {
+    position: relative;
+    color: rgb(85, 83, 83);
+    font-size: 14px;
+    display: flex;
+    width: 300px;
+    padding: 10px;
+}
+
+.fa-solid {
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top: 14px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.nav-item {
+    position: relative;
+    top: 12px;
+    margin-left: 10px;
+}
+
+a:hover {
+    background: #eee;
+    border-radius: 20px;
+}
+
+nav ul li:first-child a:hover {
+    background: transparent;
+}
+
+nav ul li:last-child a:hover {
+    background: transparent;
+}
+
+nav ul li:not(:first-child):not(:last-child) a:hover {
+    background: #eee;
+}
+
+li.current-page {
+    background-color: #f0f0f0;
+    color: #333;
+    border-radius: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    left: 30%;
+    width: 50%;
+    background-color: #f3f3f3;
+    position: relative;
+}
+
+.progress-bar:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background-color: #007bff;
+}
