@@ -27,6 +27,19 @@ gitee项目地址（自动同步github）：https://gitee.com/haha233jpg/esp32-s
 
 https://hehao666.github.io/
 
+# 使用指南：
+
+
+内存卡数据的config文件夹中的`config.txt`文件`hostName`对应我们的域名前缀，修改这里即可修改后台网址。
+
+~~~
+autoWifinum=1
+wifiConnectTime=500
+CPUFfrequency=80
+hostName=esp32
+FirstWebis=1
+~~~
+
 # 功能
 
 1、文件总管理
