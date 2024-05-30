@@ -338,23 +338,26 @@
         </ul>
     </nav>
     <div class="container">
-        <div id="wifiConfigs">
-            <div class="button-group">
+        <form id="configWifi" action="/configWifi">
+            <div id="configsArea">
+                <!-- 动态生成的Wi-Fi配置将插入此处 -->
+            </div>
+            <div id="buttonsArea">
                 <input type="submit" value="保存所有配置" />
                 &nbsp;
                 <input type="button" value="增加自连wifi" onclick="addWifi();" />
                 &nbsp;
                 <input type="button" value="减少自连wifi" onclick="deduceWifi();" />
             </div>
-            <h2>单WIFI最长连接时间（单位ms,推荐750）</h2>
-            <form action="/configFile">
-                <input id="wifiConnectTimeInput" name="wifiConnectTime" type="text" value="" class="hotspot-input"
-                    onkeyup="value=value.replace(/[^0-9]/g, '')" required="required" maxlength="63"
-                    placeholder="输入一个整数，如750" />
-                <br /><br />
-                <input type="submit" value="提交" />
-            </form>
-        </div>
+        </form>
+        <h2>单WIFI最长连接时间（单位ms,推荐750）</h2>
+        <form action="/configFile">
+            <input id="wifiConnectTimeInput" name="wifiConnectTime" type="text" value="" class="hotspot-input"
+                onkeyup="value=value.replace(/[^0-9]/g, '')" required="required" maxlength="63"
+                placeholder="输入一个整数，如750" />
+            <br /><br />
+            <input type="submit" value="提交" />
+        </form>
     </div>
     <div class="containeother">
         <h2>配置热点</h2>
@@ -412,32 +415,34 @@
         return size + ' ' + sizes[i];
     }
     function generateWifiInputsWithData(wifiDataList) {
-        const container = document.getElementById('wifiConfigs');
-        const buttonGroup = container.querySelector('.button-group'); // 找到按钮组
+        const container = document.getElementById('configWifi');
+        const configsArea = document.getElementById('configsArea'); // 新增：正确获取动态配置区域的引用
+
+        if (!container || !configsArea) {
+            console.error("Required containers not found in DOM.");
+            return; // 停止执行函数
+        }
+
         let counter = 1;
-        // 使用Set来存储已存在的Wi-Fi名称，避免重复
         const existingWifiNames = new Set(Array.from(container.querySelectorAll('.wifi-config'))
             .map(div => div.querySelector('input[name^="WifiName"]').value));
 
-        // 遍历新的Wi-Fi数据列表，并在容器末尾追加新配置
         for (const wifiData of wifiDataList) {
-            // 检查是否需要创建新配置（即名称不存在于现有配置中）
             if (!existingWifiNames.has(wifiData.wifiname)) {
-                // 创建新的配置元素
                 const configDiv = document.createElement('div');
                 configDiv.className = 'wifi-config';
                 configDiv.innerHTML = `
                 <h2>开机自连第${counter}WIFI</h2>
-                Wi-Fi名称：<input type="text" name="WifiName" value="${wifiData.wifiname}" class="hotspot-input" required maxlength="63"><br />
-                Wi-Fi密码：<input type="password" name="WifiPassword" value="${wifiData.wifipass}" class="hotspot-input" required maxlength="63" onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]/ig,'');"><br />
+                <label for="wifiName">Wi-Fi名称：</label><input type="text" name="WifiName${counter}" value="${wifiData.wifiname}" class="hotspot-input" required maxlength="63" autocomplete="current-password"><br />
+                <label for="wifiPassword">Wi-Fi密码：</label><input type="password" name="WifiPassword${counter}" value="${wifiData.wifipass}" class="hotspot-input" required maxlength="63" onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]/ig,'');"autocomplete="current-password"><br />
             `;
 
-                // 直接追加新配置到容器末尾
-                container.insertBefore(configDiv, buttonGroup);
+                // 修正：确保新配置项插入到表单按钮之前
+                configsArea.appendChild(configDiv);
+                //configsArea.insertBefore(configDiv, configsArea.firstChild);
 
-                // 添加新Wi-Fi名称到已存在集合，防止重复
                 existingWifiNames.add(wifiData.wifiname);
-                counter++; // 在成功添加后递增计数器
+                counter++;
             }
         }
     }
