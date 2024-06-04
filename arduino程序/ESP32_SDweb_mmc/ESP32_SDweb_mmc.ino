@@ -3,9 +3,8 @@
 #include <WiFi.h>
 #include <WebServer.h> 
 #include "FS.h"
-#include "SD_MMC.h"
 #include "common.h"
-#include "server.h"
+#include "myserver.h"
 #include "game.h"
 #include "upload.h"
 #include "video.h"
@@ -36,8 +35,8 @@ char* txt[1] = {
 
 char *wifissid[40];
 int wifiNum = 4;
-char wifiSsid[10][64]; 
-char wifiPassword[10][64];
+char wifiSsid[10][64]={}; 
+char wifiPassword[10][64]={};
 bool wifi_isok = 0;
 
 String foldPath = "/";
@@ -47,12 +46,19 @@ int FirstWebis=1;
 
 long long totalstorage = 0;
 long long storage = 0;
-char buff[20];
-char buff2[20];
+char buff[20]={};
+char buff2[20]={};
+
+int clk = 39;
+int cmd = 40;
+int d0 = 47;
+int d1 = 21;
+int d2 = 42;
+int d3 = 41;
 
 void setup() {
-  //Serial.begin(115200);          // 启动串口通讯
-  xTaskCreatePinnedToCore(task_server, "Task_Server", 15360, NULL, 1, &Task_Server, 1);     //创建第1核心服务器任务
+  Serial.begin(115200);          // 启动串口通讯
+  xTaskCreatePinnedToCore(task_server, "Task_Server", 15360, NULL, 1, &Task_Server, 0);     //创建第1核心服务器任务
 }
 
 void loop(void) {
@@ -65,14 +71,16 @@ void task_server(void *pvParameters)
   //Serial.println('ok');
   if(!SD_MMC.begin("/sdcard", ONE_BIT_MODE))  //SD卡初始化
   {
+    Serial.println("内存卡初始化失败");
     return;
   }
   else
   {
     hasSD=true;
   }
+  delay(10);
   if(hasSD){
-    Serial.println("你好");
+    //Serial.println("你好");
     readFile3(SD_MMC, "/config/password.txt");   //读取保存的AP名称和密码
     readFile4(SD_MMC, txt[0]);   //读取保存的wifi名称和密码
     readConfig(SD_MMC);//配置文件

@@ -1,7 +1,7 @@
 #include "upload.h"
 #include "copy.h"
 #include "version.h"
-#include "server.h"
+#include "myserver.h"
 
 extern char* txt[1];
 extern int FirstWebis;

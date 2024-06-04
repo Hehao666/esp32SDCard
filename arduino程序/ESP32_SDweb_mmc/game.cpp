@@ -1,5 +1,6 @@
 #include "game.h"
 #include "upload.h"
+#include <SD_MMC.h>
 
 extern WebServer esp32_server;
 extern long long totalstorage;

@@ -112,7 +112,7 @@ String getContentType(String filename) {
     else if (filename.endsWith(".rar")) return "application/x-rar-compressed";
     else if (filename.endsWith(".tar.gz") || filename.endsWith(".tgz")) return "application/gzip";
     
-    else return "text/plain";
+    return "application/octet-stream";
 }
 // URL解码函数
 String URLDecode(String url) {

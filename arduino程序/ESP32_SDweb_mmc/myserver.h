@@ -1,7 +1,5 @@
 #include <WiFi.h>
 #include <WebServer.h> 
-#include "FS.h"
-#include "SD_MMC.h"
 #include "common.h"
 #include "game.h"
 #include "upload.h"

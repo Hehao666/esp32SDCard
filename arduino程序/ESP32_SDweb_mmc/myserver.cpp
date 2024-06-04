@@ -1,4 +1,4 @@
-#include "server.h"
+#include "myserver.h"
 #include <WiFi.h>
 #include <Update.h>
 #include "version.h"
@@ -25,7 +25,7 @@ int wifiConnectTime=750;
 extern int CPUfrequency;
 extern int FirstWebis;
 extern const char* host;
-char hostBuffer[20];
+char hostBuffer[20]={};
 
 //主页
 void FirstWeb(){
@@ -343,6 +343,8 @@ void server_wifista(){
 
   }
   if(WiFi.status()==WL_CONNECTED){
+  //digitalWrite(37,HIGH);
+  //digitalWrite(38,LOW);
   Serial.println('\n');
   Serial.print("Connected to ");
   Serial.println(WiFi.SSID());              // 通过串口监视器输出连接的WiFi名称
@@ -392,6 +394,8 @@ void server_ap(){
     }  
   }
 
+  //digitalWrite(37,LOW);
+  //digitalWrite(38,HIGH);
   Serial.println(WiFi.softAPIP().toString()); 
 
   esp32ServerOn();
