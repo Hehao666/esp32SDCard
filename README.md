@@ -1,5 +1,5 @@
-# ESP32-SDcard-WebServer
-项目名称：ESP32便携SD卡服务器
+# ESP32随身网盘
+项目名称：ESP32随身网盘
 
 作者：B站 哈哈233jpg
 
@@ -29,6 +29,7 @@ https://hehao666.github.io/
 
 # 使用指南：
 
+arduino的esp32版本为3.0.0
 
 内存卡数据的config文件夹中的`config.txt`文件`hostName`对应我们的域名前缀，修改这里即可修改后台网址。
 
