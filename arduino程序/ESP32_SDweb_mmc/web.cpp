@@ -18,7 +18,6 @@ void handleUserRequet() {
   if (strncmp(path.c_str(), "/音乐/", 7) == 0) {
     handleAudioRequest(path);
   } else if (strncmp(path.c_str(), "/游戏/老游戏", 16) == 0) {
-    //String path = URLDecode(path); // 确保这个函数正确解码了路径
     if (SD_MMC.exists(path)) {
       File file = SD_MMC.open(path, "r");
       if (!file) {

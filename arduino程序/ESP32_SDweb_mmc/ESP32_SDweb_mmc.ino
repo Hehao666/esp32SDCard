@@ -50,7 +50,7 @@ char buff2[20] = {};
 
 void setup() {
   setCpuFrequencyMhz(240);  //CPU频率变为240MHz
-  //Serial.begin(115200);     // 启动串口通讯
+  Serial.begin(115200);     // 启动串口通讯
   while (!hasSD) {
     if (!SD_MMC.begin("/sdcard", ONE_BIT_MODE))  //SD卡初始化
     {

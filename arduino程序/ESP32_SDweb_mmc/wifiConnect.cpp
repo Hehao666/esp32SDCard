@@ -3,7 +3,6 @@
 
 extern WebServer esp32_server;
 extern bool mode_switch;
-;
 
 extern String ssid;
 extern String password;
@@ -42,7 +41,6 @@ void getWifi() {
   char timeStr[20];
   sprintf(timeStr, "%d", wifiConnectTime);
   // 初始化JSON字符串
-
   strcpy(jsonBuffer, "{\"autoWifinum\": \"");
   snprintf(tempBuffer, sizeof(tempBuffer), "%d", wifiNum);
   strcat(jsonBuffer, tempBuffer);
