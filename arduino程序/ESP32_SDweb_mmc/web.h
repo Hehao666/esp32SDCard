@@ -4,3 +4,6 @@
 #include <WebServer.h>
 
 void handleUserRequet();
+void FirstWebsend();
+void handleSwfGameRequest(String path);
+void handleFileNotFound();

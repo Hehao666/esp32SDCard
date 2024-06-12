@@ -40,7 +40,6 @@ bool wifi_isok = 0;
 
 String foldPath = "/";
 TaskHandle_t Task_Server;  //第1核心任务
-int CPUfrequency = 80;
 int FirstWebis = 1;
 
 long long totalstorage = 0;
@@ -63,8 +62,6 @@ void setup() {
       readFile3(SD_MMC, "/配置/password.txt");  //读取保存的AP名称和密码
       readFile4(SD_MMC, txt[0]);                //读取保存的wifi名称和密码
       readConfig(SD_MMC);                       //配置文件
-      if ((CPUfrequency > 0) && (CPUfrequency <= 240) && (CPUfrequency != 80))
-        setCpuFrequencyMhz(CPUfrequency);
     }
   }
 }

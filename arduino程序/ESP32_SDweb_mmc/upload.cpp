@@ -113,9 +113,9 @@ void handleFileset() {
       SD_MMC.remove((char *)upload.filename.c_str());
     }
     String filename = upload.filename;  // 建立字符串变量用于存放上传文件名
-    if (filename == "头像.jpg")
+    if (filename == "头像.webp")
       foldPath = "/配置/";
-    else if (filename == "背景.jpg")
+    else if (filename == "背景.webp")
       foldPath = "/配置/";
     if (!filename.startsWith("/"))
       filename = foldPath + filename;

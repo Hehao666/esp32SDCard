@@ -22,7 +22,6 @@ extern char wifiSsid[10][64];
 extern char wifiPassword[10][64];
 const char* fileName = "/配置/config.txt";
 int wifiConnectTime=750;
-extern int CPUfrequency;
 extern int FirstWebis;
 extern const char* host;
 char hostBuffer[20]={};
@@ -301,10 +300,6 @@ void readConfig(fs::FS &fs){
         wifiNum = value.toInt();
         Serial.println(wifiNum);
         }
-      else if (key == "CPUFfrequency"){
-        CPUfrequency = value.toInt();
-        Serial.println(CPUfrequency);
-        } 
       else if (key == "hostName"){
         strcpy(hostBuffer, value.c_str()); 
         host=hostBuffer;
@@ -324,6 +319,7 @@ void readConfig(fs::FS &fs){
 void server_wifista(){
   int i=0;
   WiFi.mode(WIFI_STA);
+  //WiFi.setTxPower(WIFI_POWER_19_5dBm);
   for(int j=0;j<wifiNum;j++)
   {
     Serial.println(wifiSsid[j]);
@@ -343,6 +339,7 @@ void server_wifista(){
 
   }
   if(WiFi.status()==WL_CONNECTED){
+
   Serial.println('\n');
   Serial.print("Connected to ");
   Serial.println(WiFi.SSID());              // 通过串口监视器输出连接的WiFi名称
@@ -409,7 +406,9 @@ void server_ap(){
 void handleGetFiles() {
   listFile(SD_MMC,foldPath);
 }
-
+void testFile(){
+  testFileIO(SD_MMC, "/test.txt");
+}
 void esp32ServerOn(){
   esp32_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
   esp32_server.on("/configWifi",HTTP_GET, configWIFI);   //保存wifi
@@ -449,6 +448,8 @@ void esp32ServerOn(){
   esp32_server.on("/backone",HTTP_GET, backone); //上一级
   esp32_server.on("/configAP", configAP);         //配置热点
   esp32_server.on("/FirstWeb", FirstWeb);         //配置主页
+  esp32_server.on("/testFileIO", testFile);         //配置主页
+  esp32_server.on("/get_FirstWebis", FirstWebsend);         //配置主页
   
   //OTA
   esp32_server.on(

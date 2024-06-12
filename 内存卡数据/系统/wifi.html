@@ -5,32 +5,22 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../系统/CSS/fontawesome-free-6.5.2-web/css/all.min.css">
-    <link rel="stylesheet" href="../系统/css.css" />
+    <link rel="icon" type="image/png"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8DwQMAAFAbQIOMhQIiIAwQAAAABJRU5ErkJggg==" />
+    <link rel="stylesheet" href="../系统/CSS/style.css">
     <title>网络配置</title>
 </head>
 <style>
     .container {
         width: 500px;
-        margin: 10px auto 0 350px;
         position: relative;
         background-color: #ffffff;
-        /* 背景色 */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* 阴影效果 */
-        padding: 20px;
-        /* 内边距 */
         border-radius: 5px;
-        /* 边框圆角 */
-        margin-bottom: 20px;
-        /* 与下方元素的距离 */
         max-height: 95vh;
-        /* 添加滚动条，仅当内容溢出时显示 */
         overflow-y: auto;
-        /* 可选：为滚动内容添加一些内边距，提升用户体验 */
         scrollbar-width: none;
         padding: 10px;
-        /* 其他样式可以根据您的设计需要进行调整 */
         box-sizing: border-box;
         border: 1px solid #ccc;
         background-color: #f9f9f9;
@@ -38,154 +28,99 @@
 
     .container::-webkit-scrollbar {
         display: none;
-        /* 对于 Chrome, Safari 和 Opera */
     }
 
     .container h2 {
         color: #3498db;
-        /* 标题颜色 */
         text-align: center;
-        /* 文字居中 */
         margin-bottom: 20px;
-        /* 下边距 */
     }
 
-    /* 提交按钮和操作按钮组美化 */
     .container input[type="submit"],
     .container input[type="button"] {
         width: auto;
-        /* 自动宽度，可根据内容调整 */
         padding: 10px 15px;
-        /* 内边距 */
         background-color: #007bff;
-        /* 背景色 */
         color: white;
-        /* 文字颜色 */
         border: none;
-        /* 无边框 */
         cursor: pointer;
-        /* 手指图标 */
         border-radius: 5px;
-        /* 边框圆角 */
         font-size: 14px;
-        /* 字体大小 */
         margin-right: 10px;
         margin-bottom: 10px;
-        /* 右边距，使按钮间有间隔 */
         transition: all 0.3s ease;
-        /* 过渡效果 */
     }
 
-    /* 按钮鼠标悬停效果 */
     .container input[type="submit"]:hover,
     .container input[type="button"]:hover {
         background-color: #0056b3;
-        /* 悬停背景色 */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* 阴影 */
     }
 
-    /* 增加按钮组的包装器，以实现垂直居中 */
     .button-group {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
-        /* 如果需要换行 */
     }
 
     .containeother {
         width: 500px;
         position: fixed;
-        top: 10px;
+        top: 8px;
         left: 50%;
-        transform: translateX(-50%);
-        z-index: 100;
-        margin: 0 auto 0 250px;
         position: absolute;
-        left: 860px;
+        left: 550px;
         background-color: #f9f9f9;
-        /* 背景色 */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* 阴影效果 */
         padding: 20px;
-        /* 内边距 */
         border-radius: 5px;
-        /* 边框圆角 */
+        border: 1px solid #ccc;
     }
 
     .wifi-config h2 {
         margin-bottom: 10px;
         color: #3498db;
-        /* 标题颜色 */
         text-align: center;
-        /* 文字居中 */
         margin-bottom: 10px;
-        /* 下边距 */
     }
 
     .containeother input[type="text"],
     .containeother input[type="password"],
     .containeother select {
         width: 100%;
-        /* 宽度自适应容器 */
         padding: 10px;
-        /* 内边距 */
         margin-bottom: 15px;
-        /* 下边距 */
         border: 1px solid #ddd;
-        /* 边框 */
         border-radius: 5px;
-        /* 边框圆角 */
         font-size: 14px;
-        /* 字体大小 */
     }
 
     .containeother input[type="submit"] {
         width: 100%;
-        /* 宽度自适应容器 */
         padding: 10px;
-        /* 内边距 */
         background-color: #007bff;
-        /* 背景色 */
         color: white;
-        /* 文字颜色 */
         border: none;
-        /* 无边框 */
         cursor: pointer;
-        /* 手指图标 */
         border-radius: 5px;
-        /* 边框圆角 */
         font-size: 14px;
-        /* 字体大小 */
         transition: all 0.3s ease;
-        /* 过渡效果 */
     }
 
-    /* 鼠标悬停效果 */
     .containeother input[type="submit"]:hover {
         background-color: #0056b3;
-        /* 悬停背景色 */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* 阴影 */
     }
 
-    /* 选择框样式 */
     .containeother select {
         appearance: none;
-        /* 移除默认样式 */
         -webkit-appearance: none;
-        /* 针对Safari */
         -moz-appearance: none;
-        /* 针对Firefox */
         background-repeat: no-repeat;
-        /* 不重复背景图 */
         background-position: right 10px center;
-        /* 箭头位置 */
         background-size: 16px 16px;
-        /* 图标大小 */
         padding-right: 30px;
-        /* 为箭头留出空间 */
     }
 
     .wifi-config input[type="text"],
@@ -249,83 +184,9 @@
 </style>
 
 <body>
-    <nav>
-        <ul>
-            <li>
-                <a class="logo">
-                    <img src="../配置/头像.jpg" alt="" />
-                    <span class="nav-item">哈哈233的网盘</span>
-                </a>
-            </li>
-            <li class="current-page">
-                <a href="../系统/wifi.html">
-                    <i class="fa-sharp fa-solid fa-wifi"></i>
-                    <span class="nav-item">网络配置</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/upload.html">
-                    <i class="fa-sharp fa-solid fa-circle-up"></i>
-                    <span class="nav-item">文件快传</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/audio.html">
-                    <i class="fa-sharp fa-solid fa-headphones"></i>
-                    <span class="nav-item">音乐播放</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/webgame.html">
-                    <i class="fa-sharp fa-solid fa-gamepad"></i>
-                    <span class="nav-item">网页游戏</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/video.html">
-                    <i class="fa-sharp fa-solid fa-film"></i>
-                    <span class="nav-item">私人影院</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/clipboard.html">
-                    <i class="fa-sharp fa-solid fa-clipboard"></i>
-                    <span class="nav-item">剪切板</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/allFile.html">
-                    <i class="fa-sharp fa-solid fa-folder"></i>
-                    <span class="nav-item">文件总管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="/wificonnect">
-                    <i class="fa-sharp fa-solid fa-gears"></i>
-                    <span class="nav-item">模式转换</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/set.html">
-                    <i class="fa-sharp fa-solid fa-gear"></i>
-                    <span class="nav-item">设置</span>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-sharp fa-solid fa-database"></i>
-                    <span class="nav-item" id="currentMemory"></span>
-                    <span class="nav-item" id="totalMemory"></span>
-                </a>
-                <div class="progress-bar" id="memory-progress">
-                </div>
-            </li>
-        </ul>
-    </nav>
     <div class="container">
         <form id="configWifi" action="/configWifi">
             <div id="configsArea">
-                <!-- 动态生成的Wi-Fi配置将插入此处 -->
             </div>
             <div id="buttonsArea">
                 <input type="submit" value="保存所有配置" />
@@ -335,8 +196,8 @@
                 <input type="button" value="减少自连wifi" onclick="deduceWifi();" />
             </div>
         </form>
-        <h2>单WIFI最长连接时间（单位ms,推荐750）</h2>
-        <form action="/configFile">
+        <h2>单WIFI最长连接时间（单位10ms）</h2>
+        <form id="configFile" action="/configFile">
             <input id="wifiConnectTimeInput" name="wifiConnectTime" type="text" value="" class="hotspot-input"
                 onkeyup="value=value.replace(/[^0-9]/g, '')" required="required" maxlength="63"
                 placeholder="输入一个整数，如750" />
@@ -346,7 +207,7 @@
     </div>
     <div class="containeother">
         <h2>配置热点</h2>
-        <form action="/configAP">
+        <form id="configAP" action="/configAP">
             <label for="hotspotName">热点名称：</label>
             <input id="hotspotName" name="hotspotName" type="text" value="" required maxlength="63"
                 placeholder="请输入热点名称" />
@@ -382,56 +243,20 @@
             .then(data => {
                 generateWifiInputsWithData(data.wifilist);
                 fillWifiConnectTime(data.wifiConnectTime);
-                //calStorage(data);
                 fillHotspotConfig(data);
                 generateChannelOptions(data.channel);
             })
-            .then(() => { // 在音乐列表和存储信息处理完毕后，再次发起请求获取存储信息
-                return fetch('/get_storage')
-                    .then(response => {
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                        return response.json();
-                    })
-                    .then(data => {
-                        // 这里假设calStorage可以处理多次调用，或者有必要再次调用
-                        calStorage(data);
-                    })
-                    .catch(error => console.error('Error fetching storage info:', error));
-            })
             .catch(error => console.error('Error:', error));
-    }
-    function calStorage(data) {
-        const currentMemoryStr = bytesToSize(data.totalstorage);
-        const totalMemoryStr = bytesToSize(data.totalstorage - data.storage);
-
-        document.getElementById('currentMemory').innerText = totalMemoryStr;
-        document.getElementById('totalMemory').innerText = " / " + currentMemoryStr;
-
-        let percentageUsed = (data.storage / data.totalstorage) * 100;
-        percentageUsed = Math.min(percentageUsed, 100);
-        const progressBar = document.getElementById('memory-progress');
-        progressBar.style.background = `linear-gradient(to right, #007bff 0%, #f3f3 ${percentageUsed}%)`;
-    }
-    function bytesToSize(bytes) {
-        var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        if (bytes == 0) return '0 B';
-        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        var size = bytes / Math.pow(1024, i);
-        if (sizes[i] !== 'B') {
-            size = size.toFixed(2);
-        }
-        return size + ' ' + sizes[i];
     }
     function generateWifiInputsWithData(wifiDataList) {
         const container = document.getElementById('configWifi');
-        const configsArea = document.getElementById('configsArea'); // 新增：正确获取动态配置区域的引用
+        const configsArea = document.getElementById('configsArea');
 
         if (!container || !configsArea) {
             console.error("Required containers not found in DOM.");
-            return; // 停止执行函数
+            return;
         }
 
-        // 清除现有的所有配置项，确保每次调用都是从干净的状态开始
         while (configsArea.firstChild) {
             configsArea.removeChild(configsArea.firstChild);
         }
@@ -450,9 +275,7 @@
                 <label for="wifiPassword">Wi-Fi密码：</label><input type="password" name="WifiPassword${counter}" value="${wifiData.wifipass}" class="hotspot-input" required maxlength="63" onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]/ig,'');"autocomplete="current-password"><br />
             `;
 
-                // 修正：确保新配置项插入到表单按钮之前
                 configsArea.appendChild(configDiv);
-                //configsArea.insertBefore(configDiv, configsArea.firstChild);
 
                 existingWifiNames.add(wifiData.wifiname);
                 counter++;
@@ -475,15 +298,57 @@
     }
     function generateChannelOptions(channelValue) {
         const channelSelect = document.getElementById('channel');
-        channelSelect.innerHTML = ''; // 清空之前的选项
+        channelSelect.innerHTML = '';
 
         for (let i = 1; i <= 13; i++) {
             const option = document.createElement('option'); option.value = i;
-            option.text = i.toString(); if (i === parseInt(channelValue)) { // 如果当前循环的值等于要选中的值，则选中此选项
+            option.text = i.toString(); if (i === parseInt(channelValue)) {
                 option.selected = true;
             } channelSelect.appendChild(option);
         }
     }
+    function submitConfig(event) {
+        event.preventDefault();
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                alert('WIFI配置保存成功');
+            }
+        };
+        xmlhttp.open("GET", event.target.action + "?" + new URLSearchParams(new FormData(event.target)).toString(), true);
+        xmlhttp.send();
+    }
+
+    function submitConfigAP(event) {
+        event.preventDefault();
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                alert('热点配置保存成功');
+            }
+        };
+        xmlhttp.open("GET", event.target.action + "?" + new URLSearchParams(new FormData(event.target)).toString(), true);
+        xmlhttp.send();
+    }
+    function submitConfigFile(event) {
+        event.preventDefault();
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                alert('最长链接时长保存成功');
+            }
+        };
+        xmlhttp.open("GET", event.target.action + "?" + new URLSearchParams(new FormData(event.target)).toString(), true);
+        xmlhttp.send();
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('configWifi').addEventListener('submit', submitConfig);
+        document.getElementById('configAP').addEventListener('submit', submitConfigAP);
+        document.getElementById('configFile').addEventListener('submit', submitConfigFile);
+    });
     window.onload = storage;
 </script>
 

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="icon" type="image/png"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8DwQMAAFAbQIOMhQIiIAwQAAAABJRU5ErkJggg==" />
+    <link rel="stylesheet" href="../系统/CSS/style.css">
+    <title>HaOs</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-image: url('../配置/背景.webp');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    nav {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        left: 0;
+        background: #fff;
+        width: 280px;
+        overflow: hidden;
+        transition: width 0.3s linear;
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        z-index: 1000;
+    }
+
+    nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .logo {
+        text-align: center;
+        display: flex;
+        transition: all 0.5s ease;
+        margin: 10px 0 0 12px;
+    }
+
+    .logo img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .logo span {
+        font-weight: bold;
+        padding-left: 15px;
+        font-size: 18px;
+    }
+
+    a {
+        position: relative;
+        color: rgb(85, 83, 83);
+        font-size: 14px;
+        display: flex;
+        width: 300px;
+        padding: 10px;
+    }
+
+    .fa-solid {
+        position: relative;
+        width: 70px;
+        height: 40px;
+        top: 14px;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .nav-item {
+        position: relative;
+        top: 12px;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    a:hover {
+        background: #eee;
+        border-radius: 20px;
+    }
+
+    nav ul li:first-child a:hover {
+        background: transparent;
+    }
+
+    nav ul li:last-child a:hover {
+        background: transparent;
+    }
+
+    nav ul li:not(:first-child):not(:last-child) a:hover {
+        background: #eee;
+    }
+
+    li.current-page {
+        background-color: #f0f0f0;
+        color: #333;
+        border-radius: 20px;
+    }
+
+    .progress-bar {
+        height: 10px;
+        left: 30%;
+        width: 50%;
+        background-color: #f3f3f3;
+        position: relative;
+    }
+
+    .progress-bar:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0%;
+        background-color: #007bff;
+    }
+
+    .main-panel {
+        width: 100%-300px;
+        margin: 0px auto 0 300px;
+    }
+
+    .wrapper {
+        position: relative;
+        top: 0;
+        height: 99vh;
+        width: 99vw;
+        overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .wrapper.wrapper-full-page {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .main-panel>.content {
+        margin-top: 0px;
+        padding: 30px 15px;
+        min-height: calc(100% - 123px);
+    }
+
+    .main-panel>.footer {
+        border-top: 1px solid #e7e7e7;
+    }
+
+    .main-panel>.navbar {
+        margin-bottom: 0;
+    }
+
+    .main-panel {
+        max-height: 100%;
+        height: 100%;
+    }
+</style>
+
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a class="logo">
+                    <img src="../配置/头像.webp" alt="" />
+                    <span class="nav-item">哈哈233的网盘</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/wifi.html" data-url="../系统/wifi.html">
+                    <i class="fa-solid icon-wifi"></i>
+                    <span class="nav-item">网络配置</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/upload.html" data-url="../系统/upload.html">
+                    <i class="fa-solid icon-circle-up"></i>
+                    <span class="nav-item">文件快传</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/audio.html" data-url="../系统/audio.html">
+                    <i class="fa-solid icon-headphones"></i>
+                    <span class="nav-item">音乐播放</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/webgame.html" data-url="../系统/webgame.html">
+                    <i class="fa-solid icon-gamepad"></i>
+                    <span class="nav-item">网页游戏</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/video.html" data-url="../系统/video.html">
+                    <i class="fa-solid icon-film"></i>
+                    <span class="nav-item">私人影院</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/clipboard.html" data-url="../系统/clipboard.html">
+                    <i class="fa-solid icon-clipboard"></i>
+                    <span class="nav-item">剪切板</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/allFile.html" data-url="../系统/allFile.html">
+                    <i class="fa-solid icon-folder"></i>
+                    <span class="nav-item">文件总管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/游戏平台/link/0.html" data-url="../系统/游戏平台/link/0.html">
+                    <i class="fa-solid icon-gamepad"></i>
+                    <span class="nav-item">HaOs游戏平台</span>
+                </a>
+            </li>
+            <li>
+                <a href="/wificonnect">
+                    <i class="fa-solid icon-gears"></i>
+                    <span class="nav-item">模式转换</span>
+                </a>
+            </li>
+            <li>
+                <a href="../系统/set.html" data-url="../系统/set.html">
+                    <i class="fa-solid icon-gear"></i>
+                    <span class="nav-item">设置</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" style="pointer-events: none;">
+                    <i class="fa-solid icon-database"></i>
+                    <span class="nav-item" id="currentMemory"></span>
+                    <span class="nav-item" id="totalMemory"></span>
+                </a>
+                <div class="progress-bar" id="memory-progress">
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div class="wrapper">
+        <div class="main-panel">
+            <iframe src="" width="100%" height="100%" style="border: none;"></iframe>
+        </div>
+    </div>
+</body>
+<script>
+    const urlMapping = {
+        1: '../系统/allFile.html',
+        2: '../系统/upload.html',
+        3: '../系统/audio.html',
+        4: '../系统/webgame.html',
+        5: '../系统/video.html',
+        6: '../系统/clipboard.html',
+        7: '../系统/set.html',
+        8: '../系统/wifi.html',
+        9: '../系统/游戏平台/link/0.html'
+    };
+    function storage() {
+        fetch('/get_storage')
+            .then(response => response.json())
+            .then(data => {
+                calStorage(data);
+            })
+            .then(data => getFirstWeb(data))
+            .catch(error => console.error('Error:', error));
+    }
+    function calStorage(data) {
+        const currentMemoryStr = bytesToSize(data.totalstorage);
+        const totalMemoryStr = bytesToSize(data.totalstorage - data.storage);
+
+        document.getElementById('currentMemory').innerText = totalMemoryStr;
+        document.getElementById('totalMemory').innerText = " / " + currentMemoryStr;
+
+        let percentageUsed = (data.storage / data.totalstorage) * 100;
+        percentageUsed = Math.min(percentageUsed, 100);
+        const progressBar = document.getElementById('memory-progress');
+        progressBar.style.background = `linear-gradient(to right, #007bff 0%, #f3f3 ${percentageUsed}%)`;
+    }
+    function bytesToSize(bytes) {
+        var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        if (bytes == 0) return '0 B';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        var size = bytes / Math.pow(1024, i);
+        if (sizes[i] !== 'B') {
+            size = size.toFixed(2);
+        }
+        return size + ' ' + sizes[i];
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const navListItems = document.querySelectorAll('nav ul li');
+        navListItems.forEach(item => {
+            item.addEventListener('click', function (event) {
+                handleNavLinkClick(event, navListItems);
+            });
+        });
+    });
+
+    function handleNavLinkClick(event, navListItemsParam) {
+        const targetElement = event.target;
+        const anchor = targetElement.closest('a');
+
+        if (anchor) {
+            event.preventDefault();
+
+            const iframe = document.querySelector('.main-panel iframe');
+            let urlToLoad;
+
+            if (anchor.hasAttribute('data-url')) {
+                urlToLoad = anchor.getAttribute('data-url');
+            }
+            else if (anchor.getAttribute('target') === 'right') {
+                urlToLoad = anchor.href;
+            } else {
+                return;
+            }
+
+            iframe.src = urlToLoad;
+
+            navListItemsParam.forEach(item => item.classList.remove('current-page'));
+            anchor.parentElement.classList.add('current-page');
+        }
+    }
+    function getFirstWeb() {
+        fetch('/get_FirstWebis')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                const firstWebis = data.FirstWebis;
+                const iframe = document.querySelector('.main-panel iframe');
+                const navLinks = document.querySelectorAll('nav ul li a[data-url]');
+
+                if (urlMapping.hasOwnProperty(firstWebis)) {
+                    const originalPath = urlMapping[firstWebis];
+                    iframe.src = originalPath;
+
+                    const encodedTarget = encodeURIComponent(originalPath);
+
+                    navLinks.forEach(link => {
+                        const encodedLinkHref = encodeURIComponent(link.getAttribute('data-url'));
+                        if (encodedTarget === encodedLinkHref) {
+                            link.parentElement.classList.add('current-page');
+                        }
+                    });
+                } else {
+                    console.warn('No mapping found for FirstWebis value:', firstWebis);
+                }
+            })
+            .catch(error => console.error('Error fetching first web info:', error));
+    }
+    window.onload = storage;
+</script>
+
+</html>

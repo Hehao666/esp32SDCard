@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
-    <link rel="stylesheet" href="../系统/CSS/fontawesome-free-6.5.2-web/css/all.min.css">
-    <link rel="stylesheet" href="../系统/css.css" />
+    <link rel="icon" type="image/png"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8DwQMAAFAbQIOMhQIiIAwQAAAABJRU5ErkJggg==" />
+    <link rel="stylesheet" href="../系统/CSS/style.css">
     <title>音乐播放</title>
     <style>
         html {
@@ -28,6 +29,7 @@
             border-radius: 10px;
             background-color: #f0f8ff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            left: -10%;
         }
 
         #audio-player h2 {
@@ -109,8 +111,7 @@
         }
 
         .audio-item:before {
-            content: "\f001";
-            font-family: 'FontAwesome';
+            font-family: 'icomoon';
             position: absolute;
             left: 10px;
             top: 50%;
@@ -124,8 +125,7 @@
         }
 
         .active::before {
-            content: '\f00c';
-            font-family: 'FontAwesome';
+            font-family: 'icomoon';
             color: #007bff;
             margin-right: 5px;
         }
@@ -137,7 +137,7 @@
         #audio-controls {
             position: fixed;
             bottom: 10%;
-            left: 20%;
+            left: 10%;
             width: 60%;
             display: flex;
             justify-content: space-between;
@@ -160,12 +160,12 @@
         }
 
         .play-pause i:before {
-            content: "\f04b";
+            content: "\e902";
             font-size: 1.5em;
         }
 
         .play-pause.playing i:before {
-            content: "\f04c";
+            content: "\e90f";
         }
 
         .control-button i {
@@ -184,89 +184,16 @@
         }
 
         .active-loop:before {
-            content: "\f01e";
+            content: "\ea2e";
         }
 
         .active-shuffle:before {
-            content: "\f074";
+            content: "\ea30";
         }
     </style>
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li>
-                <a class="logo">
-                    <img src="../配置/头像.jpg" alt="" />
-                    <span class="nav-item">哈哈233的网盘</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/wifi.html">
-                    <i class="fa-sharp fa-solid fa-wifi"></i>
-                    <span class="nav-item">网络配置</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/upload.html">
-                    <i class="fa-sharp fa-solid fa-circle-up"></i>
-                    <span class="nav-item">文件快传</span>
-                </a>
-            </li>
-            <li class="current-page">
-                <a href="../系统/audio.html">
-                    <i class="fa-sharp fa-solid fa-headphones"></i>
-                    <span class="nav-item">音乐播放</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/webgame.html">
-                    <i class="fa-sharp fa-solid fa-gamepad"></i>
-                    <span class="nav-item">网页游戏</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/video.html">
-                    <i class="fa-sharp fa-solid fa-film"></i>
-                    <span class="nav-item">私人影院</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/clipboard.html">
-                    <i class="fa-sharp fa-solid fa-clipboard"></i>
-                    <span class="nav-item">剪切板</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/allFile.html">
-                    <i class="fa-sharp fa-solid fa-folder"></i>
-                    <span class="nav-item">文件总管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="/wificonnect">
-                    <i class="fa-sharp fa-solid fa-gears"></i>
-                    <span class="nav-item">模式转换</span>
-                </a>
-            </li>
-            <li>
-                <a href="../系统/set.html">
-                    <i class="fa-sharp fa-solid fa-gear"></i>
-                    <span class="nav-item">设置</span>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-sharp fa-solid fa-database"></i>
-                    <span class="nav-item" id="currentMemory"></span>
-                    <span class="nav-item" id="totalMemory"></span>
-                </a>
-                <div class="progress-bar" id="memory-progress">
-                </div>
-            </li>
-        </ul>
-    </nav>
     <div id="audio-player">
         <h2>
             <div id="current-song-title">当前歌曲:</div>
@@ -276,16 +203,16 @@
     </div>
     <div id="audio-controls">
         <button onclick="prevTrack()" class="control-button">
-            <i class="fas fa-step-backward"></i>
+            <i class="fas icon-backward-step"></i>
         </button>
         <button onclick="playPause()" class="control-button play-pause">
-            <i class="fas fa-play"></i>
+            <i class="fas icon-play"></i>
         </button>
         <button onclick="nextTrack()" class="control-button">
-            <i class="fas fa-step-forward"></i>
+            <i class="fas icon-forward-step"></i>
         </button>
         <button onclick="togglePlaybackMode()" class="control-button playback-mode">
-            <i class="fas fa-retweet"></i>
+            <i class="fas icon-retweet"></i>
         </button>
         <div class="progress-barmusic">
             <div class="progress-barmusic-filled " id="progressFilled"></div>
@@ -319,10 +246,10 @@
 
         if (isLooping) {
             iconClass = 'active-loop';
-            iconName = 'fa-retweet';
+            iconName = 'icon-retweet';
         } else if (isShuffling) {
             iconClass = 'active-shuffle';
-            iconName = 'fa-random';
+            iconName = 'icon-random';
         }
 
         let iconElement = document.querySelector('.playback-mode i');
@@ -330,7 +257,7 @@
         if (iconName) {
             iconElement.className = `fas ${iconName} ${iconClass}`;
         } else {
-            iconElement.className = 'fas fa-retweet';
+            iconElement.className = 'fas icon-retweet';
         }
     }
 
@@ -338,13 +265,12 @@
         fetch('/listaudio')
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return response.json(); // 假设返回的是一个包含音乐列表和存储信息的混合数组
+                return response.json();
             })
             .then(data => {
                 const audioList = document.getElementById('audio-list');
-                audioList.innerHTML = ''; // 清空现有列表
+                audioList.innerHTML = '';
                 playlist = data.musicList;
-                // 直接使用musicData遍历，不再需要playlist变量的赋值
                 data.musicList.forEach((track, index) => {
                     const listItem = document.createElement('li');
                     listItem.textContent = track.filename;
@@ -352,25 +278,12 @@
                     listItem.classList.add('audio-item');
                     listItem.addEventListener('click', () => {
                         currentTrackIndex = index;
-                        loadAndPlayTrack(currentTrackIndex); // 确保loadAndPlayTrack函数已定义
+                        loadAndPlayTrack(currentTrackIndex);
                     });
                     audioList.appendChild(listItem);
                 });
 
-                // 单独处理存储信息
-                adjustListHeightBasedOnLines(); // 调整列表高度
-            })
-            .then(() => { // 在音乐列表和存储信息处理完毕后，再次发起请求获取存储信息
-                return fetch('/get_storage')
-                    .then(response => {
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                        return response.json();
-                    })
-                    .then(data => {
-                        // 这里假设calStorage可以处理多次调用，或者有必要再次调用
-                        calStorage(data);
-                    })
-                    .catch(error => console.error('Error fetching storage info:', error));
+                adjustListHeightBasedOnLines();
             })
             .catch(error => console.error('Error:', error));
     }
@@ -384,14 +297,21 @@
         if (track) {
             audioPlayer.src = track.filepath;
 
-            audioPlayer.addEventListener('canplay', function () {
-                this.play().catch(error => console.error('Play request was interrupted or failed:', error));
-                this.removeEventListener('canplay', arguments.callee);
-
-                if (!audioPlayer.paused) {
+            audioPlayer.play()
+                .then(() => {
+                    console.log('音频开始播放');
                     document.querySelector('.play-pause').classList.add('playing');
-                }
-            });
+                })
+                .catch(error => {
+                    console.error('播放请求被中断或失败:', error);
+                    audioPlayer.addEventListener('canplay', function playWhenReady() {
+                        this.play().then(() => {
+                            console.log('音频在缓冲后开始播放');
+                            this.removeEventListener('canplay', playWhenReady);
+                            document.querySelector('.play-pause').classList.add('playing');
+                        }).catch(e => console.error('后续尝试播放失败:', e));
+                    });
+                });
 
             setActiveTrack(currentTrackIndex);
 
@@ -479,30 +399,16 @@
             console.error('No list item found to calculate height.');
         }
     }
-    function calStorage(data) {
-        const currentMemoryStr = bytesToSize(data.totalstorage);
-        const totalMemoryStr = bytesToSize(data.totalstorage - data.storage);
-
-        document.getElementById('currentMemory').innerText = totalMemoryStr;
-        document.getElementById('totalMemory').innerText = " / " + currentMemoryStr;
-
-        let percentageUsed = (data.storage / data.totalstorage) * 100;
-        percentageUsed = Math.min(percentageUsed, 100);
-        const progressBar = document.getElementById('memory-progress');
-        progressBar.style.background = `linear-gradient(to right, #007bff 0%, #f3f3 ${percentageUsed}%)`;
-    }
     function bytesToSize(bytes) {
         var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         if (bytes == 0) return '0 B';
         var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        var size = bytes / Math.pow(1024, i); // 不预先四舍五入，以便在最后统一处理小数位
-        // 对于非“B”单位，始终保留两位小数
+        var size = bytes / Math.pow(1024, i);
         if (sizes[i] !== 'B') {
             size = size.toFixed(2);
         }
         return size + ' ' + sizes[i];
     }
-
     window.onload = listAudio;
 </script>
 
