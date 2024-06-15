@@ -45,27 +45,6 @@ void listaudio(){
   Serial.println(json);
 }
 
-void handleAudioRequest(String path) {
-    //String path = URLDecode(path1);
-    Serial.println(path);
-    String contentType = getContentType(path);
-    if (SD_MMC.exists(path)) {
-        File file = SD_MMC.open(path, "r");
-        if (!file) {
-            esp32_server.send(500, "text/plain", "Internal Server Error");
-            return;
-        }
-
-        size_t sent = esp32_server.streamFile(file, contentType);
-        file.close();
-        if (sent == 0) {
-            esp32_server.send(500, "text/plain", "File Not Sent");
-        }
-    } else {
-        esp32_server.send(404, "text/plain", "File Not Found");
-    }
-}
-
 String getContentType(String filename) {
     if (filename.endsWith(".html") || filename.endsWith(".htm")) return "text/html; charset=UTF-8";
     else if (filename.endsWith(".css")) return "text/css";
@@ -106,6 +85,8 @@ String getContentType(String filename) {
     else if (filename.endsWith(".rar")) return "application/x-rar-compressed";
     else if (filename.endsWith(".tar.gz") || filename.endsWith(".tgz")) return "application/gzip";
     
+    else if (filename.endsWith(".swf")) return "application/x-shockwave-flash";
+
     return "application/octet-stream";
 }
 // URL解码函数

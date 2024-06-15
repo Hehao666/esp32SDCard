@@ -3,6 +3,7 @@
 
 extern WebServer esp32_server;
 extern bool mode_switch;
+;
 
 extern String ssid;
 extern String password;

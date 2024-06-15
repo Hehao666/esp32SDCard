@@ -339,7 +339,6 @@ void server_wifista(){
 
   }
   if(WiFi.status()==WL_CONNECTED){
-
   Serial.println('\n');
   Serial.print("Connected to ");
   Serial.println(WiFi.SSID());              // 通过串口监视器输出连接的WiFi名称
@@ -426,7 +425,7 @@ void esp32ServerOn(){
           respondOK,        // 则回复状态码 200 给客户端
           handleFileset);// 并且运行处理文件上传函数
   esp32_server.on("/backRoot", HTTP_GET, backRoot);   //回到根目录
-  esp32_server.on("/lookthis", HTTP_GET, lookthisFile);   //查看文件
+  esp32_server.on("/lookthis", HTTP_GET, lookthisFile);   //进入文件夹
   esp32_server.on("/uploadaddFold", HTTP_GET, uploadaddFold);   //upload创建文件夹
   esp32_server.on("/renameFile", HTTP_GET, renameFile);   //重命名
   esp32_server.on("/deleteUploadFile", HTTP_GET, deleteUploadFile);   //删除文件
@@ -434,22 +433,22 @@ void esp32ServerOn(){
   esp32_server.on("/edittxt",HTTP_GET,editTxt);   //编辑txt文件
   esp32_server.on("/modify",HTTP_GET,modify);   //修改文件
   esp32_server.on("/wificonnect",changemode);   //模式转换
-  esp32_server.on("/get_version", setversion); //显示版本
+  esp32_server.on("/get_version", setversion); //显示默认主页、版本、域名前缀、网络提供和设备IP
   esp32_server.on("/get_storage", getStorage); //显示内存
-  esp32_server.on("/get_wifi", getWifi); //显示wifi
-  esp32_server.on("/get_video", getVideo); //显示视频
+  esp32_server.on("/get_wifi", getWifi); //显示wifi和热点
+  esp32_server.on("/get_video", getVideo); //显示视频列表
   esp32_server.on("/get_RootFile", getRootFile); //显示根目录
   esp32_server.on("/get_quickFile", getQuickFile); //显示上传目录
   esp32_server.on("/get_File", handleGetFiles); //显示当前文件夹
   esp32_server.on("/configFile",HTTP_GET, configFile); //修改配置文件
-  esp32_server.on("/nameText",HTTP_GET, nameText); //修改配置文件
+  esp32_server.on("/nameText",HTTP_GET, nameText); //配置wifi
   esp32_server.on("/addWifi",HTTP_GET, addWifi); //增加自连wifi
   esp32_server.on("/deduceWifi",HTTP_GET, deduceWifi); //减少自连wifi
   esp32_server.on("/backone",HTTP_GET, backone); //上一级
   esp32_server.on("/configAP", configAP);         //配置热点
   esp32_server.on("/FirstWeb", FirstWeb);         //配置主页
-  esp32_server.on("/testFileIO", testFile);         //配置主页
-  esp32_server.on("/get_FirstWebis", FirstWebsend);         //配置主页
+  esp32_server.on("/testFileIO", testFile);         //测试读写
+  esp32_server.on("/get_FirstWebis", FirstWebsend);         //默认主页
   
   //OTA
   esp32_server.on(
