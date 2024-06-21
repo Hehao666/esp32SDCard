@@ -17,9 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // Keyboard events are bound in the UI
-JSNES.Keyboard = function() {
+JSNES.Keyboard = function () {
     var i;
-    
+
     this.keys = {
         KEY_A: 0,
         KEY_B: 1,
@@ -42,7 +42,7 @@ JSNES.Keyboard = function() {
 };
 
 JSNES.Keyboard.prototype = {
-    setKey: function(key, value) {
+    setKey: function (key, value) {
         switch (key) {
             case 75: this.state1[this.keys.KEY_A] = value; break;      // X 88
             case 74: this.state1[this.keys.KEY_B] = value; break;      // Y (Central European keyboard) 89
@@ -54,32 +54,41 @@ JSNES.Keyboard.prototype = {
             case 65: this.state1[this.keys.KEY_LEFT] = value; break;   // Left 37
             case 68: this.state1[this.keys.KEY_RIGHT] = value; break;  // Right 39
 
-            case 103: this.state2[this.keys.KEY_A] = value; break;     // Num-7
+            /*case 103: this.state2[this.keys.KEY_A] = value; break;     // Num-7
             case 105: this.state2[this.keys.KEY_B] = value; break;     // Num-9
             case 99: this.state2[this.keys.KEY_SELECT] = value; break; // Num-3
             case 97: this.state2[this.keys.KEY_START] = value; break;  // Num-1
             case 104: this.state2[this.keys.KEY_UP] = value; break;    // Num-8
             case 98: this.state2[this.keys.KEY_DOWN] = value; break;   // Num-2
             case 100: this.state2[this.keys.KEY_LEFT] = value; break;  // Num-4
-            case 102: this.state2[this.keys.KEY_RIGHT] = value; break; // Num-6
+            case 102: this.state2[this.keys.KEY_RIGHT] = value; break; // Num-6*/
+
+            case 99: this.state2[this.keys.KEY_A] = value; break;     // Num-7
+            case 98: this.state2[this.keys.KEY_B] = value; break;     // Num-9
+            case 103: this.state2[this.keys.KEY_SELECT] = value; break; // Num-3
+            case 104: this.state2[this.keys.KEY_START] = value; break;  // Num-1
+            case 38: this.state2[this.keys.KEY_UP] = value; break;    // PgUp
+            case 40: this.state2[this.keys.KEY_DOWN] = value; break;   // PgDn
+            case 37: this.state2[this.keys.KEY_LEFT] = value; break;  // Home
+            case 39: this.state2[this.keys.KEY_RIGHT] = value; break; // End
             default: return true;
         }
         return false; // preventDefault
     },
 
-    keyDown: function(evt) {
+    keyDown: function (evt) {
         if (!this.setKey(evt.keyCode, 0x41) && evt.preventDefault) {
             evt.preventDefault();
         }
     },
-    
-    keyUp: function(evt) {
+
+    keyUp: function (evt) {
         if (!this.setKey(evt.keyCode, 0x40) && evt.preventDefault) {
             evt.preventDefault();
         }
     },
-    
-    keyPress: function(evt) {
+
+    keyPress: function (evt) {
         evt.preventDefault();
     }
 };

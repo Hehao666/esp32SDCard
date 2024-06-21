@@ -154,7 +154,7 @@ JSNES.prototype = {
 
     printFps: function () {
         var now = +new Date();
-        var s = 'Running';
+        var s = '运行中';
         if (this.lastFpsTime) {
             s += ': ' + (
                 this.fpsFrameCount / ((now - this.lastFpsTime) / 1000)
@@ -184,7 +184,7 @@ JSNES.prototype = {
             this.stop();
         }
 
-        this.ui.updateStatus("Loading ROM...");
+        this.ui.updateStatus("加载ROM中...");
 
         // Load ROM file:
         this.rom = new JSNES.ROM(this);
