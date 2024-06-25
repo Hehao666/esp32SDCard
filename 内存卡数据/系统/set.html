@@ -248,7 +248,7 @@
         var formdata = new FormData();
 
         if (file) {
-            var fileName = fileInputId === 'file1' ? '头像.jpg' : '背景.jpg';
+            var fileName = fileInputId === 'file1' ? '头像.webp' : '背景.webp';
             formdata.append(fileInputId, file, fileName);
         } else {
             alert("请选择一个文件");
