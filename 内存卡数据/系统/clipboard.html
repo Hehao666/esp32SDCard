@@ -87,9 +87,15 @@
         var text = document.getElementById('clipboardTextArea').value;
         var con = encodeURIComponent(text);
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "/edittxt?txtpath=/copy.txt&con=" + con, true);
+        xmlhttp.open("GET", "/edittxt?txtpath=/配置/copy.txt&con=" + con, true);
         xmlhttp.send();
-        xmlhttp.onload = function (e) { alert(this.responseText); }
+        xmlhttp.onload = function () {
+            if (this.status == 200) {
+                alert('保存成功');
+            } else {
+                alert('保存失败');
+            }
+        };
     }
     function theCopy() {
         var textArea = document.getElementById('textArea');
